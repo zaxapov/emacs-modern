@@ -1,58 +1,3 @@
-;;; Keybindings:
-;;
-;; "M-x"  Show all commands
-;;        – hold down the "Meta key" and press <x>
-;;        – the "Meta key" is usually <Alt> on Linux/Windows and <Option> on Mac
-;;
-;; "C-g"  Get out! Press <Ctrl>+<g> to cancel whatever happens – or hit 3x <ESC>
-;;
-;; "F12"  Toggle between dark and light theme
-;;
-;;; Examples:
-;;
-;; "M-x eon-"                     Show all commands defined by Emacs ONBOARD
-;; "M-x eon-goto-user-init-file"  Visit main config file: .emacs or init.el
-;; "M-x check-parens"             Check if all parens match in Emacs Lisp code
-;; "M-x help"                     Reach the ultimate help menu
-;;
-;; "C-h o" Place the cursor behind a keyword, function, variable or other symbol
-;;         to issue the command `describe-symbol' via keybinding
-;;         and view the symbol's documentation
-;;
-;; "M-;"   Comment/uncomment a selected piece of text or code
-;;
-;;; Code:
-
-;;  ____________________________________________________________________________
-;;; GARBAGE COLLECTION
-;; <https://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Garbage-Collection>
-
-;; Temporarily set a high value of 256 MB to trigger less garbage collections
-;; during initialization. The Emacs default is a threshold of 800 KB
-(setq gc-cons-threshold (* 256 1000000))
-
-;; Then lower the threshold to 16 MB during normal operation to prevent longer
-;; GC pauses, but still have it at a higher value than the default to experience
-;; less mini-interruptions – eg. while scrolling larger buffers.
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold (* 16 1000000))))
-
-;; Show a message when garbage collection happens? Useful while tuning the GC
-(setq garbage-collection-messages nil)
-
-;; Diagnostics
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "Emacs started in %s with %d garbage collections."
-                     (format "%.3f seconds"
-                             (float-time
-                              (time-subtract after-init-time before-init-time)))
-                     gcs-done)))
-
-;;  ____________________________________________________________________________
-;;; PACKAGE MANAGEMENT
-
 ;; Installing straight.el package manager
 ;; https://github.com/radian-software/straight.el#getting-started
 (defvar bootstrap-version)
@@ -313,7 +258,7 @@
                                           calc-prefer-frac t
                                           calc-angle-mode rad)))))
           (t (let ((l (thing-at-point 'line)))
-               (end-of-line 1) (kill-line 0) 
+               (end-of-line 1) (kill-line 0)
                (insert (calc-eval `(,l
                                     calc-language latex
                                     calc-prefer-frac t
@@ -333,7 +278,7 @@
 (use-package cdlatex
   :ensure t
   :hook (LaTeX-mode . turn-on-cdlatex)
-  :bind (:map cdlatex-mode-map 
+  :bind (:map cdlatex-mode-map
               ("<tab>" . cdlatex-tab)))
 
 ;; Yasnippet settings
@@ -349,7 +294,7 @@
                 :test 'equal))
 
   (setq yas-triggers-in-field t)
-  
+
   ;; Function that tries to autoexpand YaSnippets
   ;; The double quoting is NOT a typo!
   (defun my/yas-try-expanding-auto-snippets ()
@@ -396,7 +341,7 @@
           (cdlatex-tab)
         (yas-next-field-or-maybe-expand)))))
 
-;; Array/tabular input with org-tables and cdlatex 
+;; Array/tabular input with org-tables and cdlatex
 (use-package org-table
   :straight nil
   :after cdlatex
@@ -452,7 +397,7 @@
       (align-regexp (region-beginning) (region-end) "\\([:space:]*\\)& ")
       (orgtbl-mode -1)
       (advice-remove 'orgtbl-ctrl-c-ctrl-c #'lazytab-orgtbl-replace)))
-  
+
   (defun lazytab-orgtbl-to-amsmath (table params)
     (orgtbl-to-generic
      table
@@ -482,7 +427,7 @@
 ;; Themes
 ;; -------
 (use-package lambda-themes
-  :straight (:type git :host github :repo "lambda-emacs/lambda-themes") 
+  :straight (:type git :host github :repo "lambda-emacs/lambda-themes")
   :custom
   (lambda-themes-set-italic-comments t)
   (lambda-themes-set-italic-keywords t)
@@ -495,11 +440,7 @@
 (use-package auto-dark
   :config (auto-dark-mode t))
 
-;; ;; Better modeline
-;; (use-package doom-modeline
-;;   :ensure t
-;;   :init (doom-modeline-mode 1))
-;;  ____________________________________________________________________________
+
 ;;; SYSTEM
 
 ;; Prevent stale elisp bytecode from shadowing more up-to-date source files
@@ -520,9 +461,6 @@
 ;; Fullscrenn keybinding
 (global-set-key (kbd "C-s-f") #'toggle-frame-fullscreen)
 
-;; Eval buffer keybinding
-(global-set-key (kbd "C-c e") #'eval-buffer)
-
 ;; Horizontal scroll bar
 (horizontal-scroll-bar-mode t)
 
@@ -538,7 +476,7 @@
 (when (>= emacs-major-version 28)
   (context-menu-mode 1))
 
-;;  ____________________________________________________________________________
+
 ;;; FONTS
 ;;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Fonts>
 
@@ -554,7 +492,6 @@
   (when (member "DejaVu Sans Mono" (font-family-list))
     (set-frame-font "DejaVu Sans Mono" t t))))
 
-;;  ____________________________________________________________________________
 ;;; INITIAL FRAME
 
 ;; … or set the default width of the Emacs frame in characters
@@ -563,15 +500,7 @@
 ;; … and set the default height of the Emacs frame in lines
 (add-to-list 'default-frame-alist '(height . 38))
 
-;;  ____________________________________________________________________________
 ;;; CURSOR
-;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Cursor-Display>
-
-;; To learn about available cursors, place your cursor behind 'cursor-type'
-;; in the code below or do "M-x describe-symbol RET cursor-type RET"
-
-;; Set the cursor type
-;; Comment out the following expression to change the curser into to a bar
 (add-to-list 'default-frame-alist '(cursor-type . bar))
 
 ;; Turn on/off cursor blinking by default?
@@ -586,12 +515,9 @@
 ;; Make sure to highlight the current line only in the active window.
 (setq hl-line-sticky-flag nil)
 
-;;  ____________________________________________________________________________
 ;;; USER INTERFACE
 
-;; Menu bar: on/off by default?
 (menu-bar-mode 1)
-(global-set-key (kbd "M-`") #'menu-bar-mode)
 
 ;; Scroll bar: on/off by default?
 (if (fboundp 'scroll-bar-mode)  ; Emacs 26.1 compatibility
@@ -613,7 +539,7 @@
 ;; Redraw the display – useful when running Emacs in a Windows terminal emulator
 (global-set-key (kbd "C-x r d") #'redraw-display)
 
-;;  ____________________________________________________________________________
+
 ;;; MODELINE
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Mode-Line>
 
@@ -628,7 +554,7 @@
 ;; Show column number along with line number in modeline
 (column-number-mode 1)
 
-;;  ____________________________________________________________________________
+
 ;;; ELDOC
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Lisp-Doc>
 
@@ -638,13 +564,13 @@
       eldoc-echo-area-prefer-doc-buffer t
       eldoc-echo-area-use-multiline-p t)
 
-;;  ____________________________________________________________________________
+
 ;;; PINENTRY
 
 (require 'epg-config)
 (setq epg-pinentry-mode 'loopback)
 
-;;  ____________________________________________________________________________
+
 ;;; WINDOW MANAGEMENT
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Windows>
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Window-Convenience>
@@ -674,19 +600,14 @@
 (define-key winner-mode-map (kbd "C-x 4 u") #'winner-undo)
 (define-key winner-mode-map (kbd "C-x 4 r") #'winner-redo)
 
-;;  ____________________________________________________________________________
+
 ;;; BUFFERS
-;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Buffers>
 
 (when (version<= "27.1" emacs-version)
   (setq switch-to-buffer-obey-display-actions t))
 
 ;; Uniquify buffer names for buffers that would have identical names
 (setq uniquify-buffer-name-style 'forward)
-
-;; Kill the current buffer immediately instead of presenting a selection
-;; It's the equivalent to "close tab" in a web browser or other editors
-(global-set-key (kbd "C-x k") #'kill-buffer-and-window)
 
 ;; Define boring buffers globally, so they can be hidden
 (defvar eon-boring-buffers '("\\` "
@@ -706,10 +627,8 @@
   "List of buffer names of buffers to hide on several occasions.
 The elements of the list are regular expressions.")
 
-;;  ____________________________________________________________________________
-;;; IBUFFER – the buffer manager
-;; <https://protesilaos.com/codelog/2020-04-02-emacs-intro-ibuffer/>
 
+;;; IBUFFER – the buffer manager
 (require 'ibuf-ext)
 
 (add-hook 'ibuffer-mode-hook
@@ -726,18 +645,12 @@ The elements of the list are regular expressions.")
 ;; Should the *scratch* buffer contain some initial content?
 (setq initial-scratch-message "")
 
-;;  ____________________________________________________________________________
+
 ;;; VISITING FILES AT POINT
-
-;; "C-x C-v"       – Visit any resource under the cursor
-;; "M-x ffap-menu" – Display a list of all ressources mentioned in this buffer
-
 (global-set-key (kbd "C-x C-.") #'find-file-at-point)
 
-;;  ____________________________________________________________________________
-;;; BACKUP
-;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Backup>
 
+;;; BACKUP
 ;; Make backup before editing
 (setq backup-by-copying t
       kept-new-versions 10
@@ -750,30 +663,25 @@ The elements of the list are regular expressions.")
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "backup/"))))
 
-;;  ____________________________________________________________________________
+
 ;;; LOCKFILES
-;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Interlocking>
 
 ;; Let Emacs keep track of files currently visited?
 (setq create-lockfiles nil)
 
-;;  ____________________________________________________________________________
+
 ;;; AUTO-SAVE
-;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Auto-Save>
-;; stop creating those #auto-save# files
 
 (setq auto-save-default nil
       auto-save-interval 0)
 
-;;  ____________________________________________________________________________
-;;; HELP
-;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Help>
 
+;;; HELP
 ;; Show all options when running 'apropos' "C-h a" (fulltext search)
 (require 'apropos)
 (setq apropos-do-all t)
 
-;;  ____________________________________________________________________________
+
 ;;; RECENT FILES
 
 (require 'recentf)
@@ -796,7 +704,7 @@ The elements of the list are regular expressions.")
   (find-file (completing-read "Find recent file: " recentf-list nil t) nil))
 (global-set-key (kbd "C-x f") #'eon-find-recentf)
 
-;;  ____________________________________________________________________________
+
 ;;; DIRED
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Dired>
 
@@ -859,7 +767,7 @@ Kills the current Dired buffer when entering a new directory"
       ;; e.g. ~/.local/cache/thumbnails to make them reusable by other programs
       image-dired-thumbnail-storage 'standard-large)
 
-;;  ____________________________________________________________________________
+
 ;;; COMINT
 
 (require 'comint)
@@ -867,7 +775,7 @@ Kills the current Dired buffer when entering a new directory"
 (setq comint-input-ignoredups t
       comint-prompt-read-only t)
 
-;;  ____________________________________________________________________________
+
 ;;; PROCED
 
 ;; Show and manage OS processes, like the command line programs top and htop
@@ -879,7 +787,7 @@ Kills the current Dired buffer when entering a new directory"
 (setq-default proced-auto-update-flag t
               proced-descend t)
 
-;;  ____________________________________________________________________________
+
 ;;; NET-UTILS
 
 (require 'net-utils)
@@ -887,7 +795,7 @@ Kills the current Dired buffer when entering a new directory"
 (setq netstat-program "netstat"
       netstat-program-options '("-atupe"))
 
-;;  ____________________________________________________________________________
+
 ;;; PRIMARY WEB BROWSER
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Hyperlinking>
 
@@ -908,7 +816,7 @@ Kills the current Dired buffer when entering a new directory"
 ;; Keybinding
 (global-set-key (kbd "C-x w w") #'browse-url)
 
-;;  ____________________________________________________________________________
+
 ;;; CALENDAR
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Calendar_002fDiary>
 
@@ -918,7 +826,7 @@ Kills the current Dired buffer when entering a new directory"
       calendar-week-start-day 1
       calendar-weekend-days '(6 0))
 
-;;  ____________________________________________________________________________
+
 ;;; GENERAL EDITING
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Basic>
 
@@ -941,7 +849,7 @@ Kills the current Dired buffer when entering a new directory"
 ;; move cursor by camelCase
 (global-subword-mode 1)
 
-;;  ____________________________________________________________________________
+
 ;;; LINE NUMBERS
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Display-Custom>
 
@@ -951,7 +859,7 @@ Kills the current Dired buffer when entering a new directory"
           (lambda ()
             (display-line-numbers-mode -1)))
 
-;;  ____________________________________________________________________________
+
 ;;; LINE WRAPPING
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Line-Truncation>
 
@@ -964,7 +872,7 @@ Kills the current Dired buffer when entering a new directory"
 ;; turn off line wrapping
 (set-default 'truncate-lines t)
 
-;;  ____________________________________________________________________________
+
 ;;; FOLDING
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Hideshow>
 
@@ -973,7 +881,7 @@ Kills the current Dired buffer when entering a new directory"
           (lambda ()
             (hs-minor-mode 1)))
 
-;;  ____________________________________________________________________________
+
 ;;; INDENTATION
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Indentation>
 
@@ -985,7 +893,7 @@ Kills the current Dired buffer when entering a new directory"
 
 (setq backward-delete-char-untabify-method 'hungry)
 
-;;  ____________________________________________________________________________
+
 ;;; BRACKETS / PARENTHESIS
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Parentheses>
 
@@ -996,7 +904,7 @@ Kills the current Dired buffer when entering a new directory"
 ;; Auto-close parens, brackets and quotes?
 (electric-pair-mode 1)
 
-;;  ____________________________________________________________________________
+
 ;;; WHITESPACE
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Useless-Whitespace>
 
@@ -1015,7 +923,7 @@ Kills the current Dired buffer when entering a new directory"
 ;; Cleanup trailing whitespace in "text" modes
 (define-key text-mode-map (kbd "C-x c w") #'whitespace-cleanup)
 
-;;  ____________________________________________________________________________
+
 ;;; SYNTAX CHECK / LINTER
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/flymake.html>
 
@@ -1036,7 +944,7 @@ Kills the current Dired buffer when entering a new directory"
 (define-key flymake-mode-map (kbd "M-g n") #'flymake-goto-next-error)  ; default
 (define-key flymake-mode-map (kbd "M-g p") #'flymake-goto-prev-error)  ; default
 
-;;  ____________________________________________________________________________
+
 ;;; COMPILING
 ;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Building>
 
@@ -1045,52 +953,12 @@ Kills the current Dired buffer when entering a new directory"
  'display-buffer-alist
  '("\\*.*compilation\\*" (display-buffer-no-window)))
 
-;;  ____________________________________________________________________________
+
 ;;; TEXT MODES / WRITING
 
 ;; Sentences end with a single space
 (setq sentence-end-double-space nil)
 
-;;  ____________________________________________________________________________
-;;; LISP LANGUAGES
-;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Executing-Lisp>
-
-(defvar eon-lisp-modes
-  '( emacs-lisp-mode-hook lisp-interaction-mode-hook ielm-mode-hook
-     lisp-mode-hook inferior-lisp-mode-hook
-     scheme-mode-hook inferior-scheme-mode-hook
-     eval-expression-minibuffer-setup))
-
-;; Auto-close parentheses, brackets, quotes, etc.
-(mapc (lambda (h) (add-hook h #'electric-pair-local-mode))
-      eon-lisp-modes)
-
-;; Highlight matching parens
-(mapc (lambda (h)
-        (add-hook h #'(lambda () (setq-local show-paren-style 'expression))))
-      eon-lisp-modes)
-
-(mapc (lambda (h) (add-hook h #'show-paren-local-mode))
-      eon-lisp-modes)
-
-;; Emacs Lisp is supported by Flymake, so let's use it
-(add-hook 'emacs-lisp-mode-hook #'flymake-mode)
-(add-hook 'lisp-interaction-mode-hook (lambda () (flymake-mode -1)))
-
-;; Emacs Lisp is supported by Semantic, so let's use this too
-;; <https://www.gnu.org/software/emacs/manual/html_mono/semantic.html>
-(add-hook 'emacs-lisp-mode-hook #'semantic-mode)
-
-;; Emacs Lisp: don't truncate printed lists
-(setq eval-expression-print-length nil)
-
-;; Additional keybinding resembling other sexp-related keybindings
-;; who usually begin with "C-M". Also useful editing non-lisp languages
-(global-set-key (kbd "C-M-<backspace>") #'backward-kill-sexp)
-
-;;  ____________________________________________________________________________
-(provide 'onboard)
-;;; onboard.el ends here
 
 ;; (defun cfg:reverse-input-method (input-method)
 ;;   "Build the reverse mapping of single letters from INPUT-METHOD."
@@ -1137,5 +1005,3 @@ Kills the current Dired buffer when entering a new directory"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
-(put 'scroll-left 'disabled nil)
