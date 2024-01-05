@@ -1,5 +1,4 @@
-;; Commands (minibuffer) completion
-;; -----------------------------------
+;;; COMMANDS (MINIBUFFER) COMPLETION
 ;; Enable vertico
 (use-package vertico
   :init
@@ -23,12 +22,10 @@
               ("M-DEL" . vertico-directory-delete-word))
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
-
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
   :init
   (savehist-mode))
-
 ;; A few more useful configurations...
 (use-package emacs
   :init
@@ -53,7 +50,7 @@
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t))
 
-;; Show descriptions for commands in minibuffer
+;; SHOW DESCRIPTIONS FOR COMMANDS IN MINIBUFFER
 (use-package marginalia
   :after vertico
   :ensure t
@@ -63,11 +60,7 @@
   (marginalia-mode))
 
 ;;; MODELINE
-;; <https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#Mode-Line>
-;; Compress the mode line? If non-nil, repeating spaces are compressed into
-;; a single space. If 'long', this is only done when the mode line is longer
-;; than the current window width (in columns).
-(setq mode-line-compact nil)
+(setq mode-line-compact 1)
 ;; Show the buffer size in the modeline
 (size-indication-mode 1)
 ;; Show column number along with line number in modeline

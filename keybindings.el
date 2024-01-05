@@ -1,8 +1,4 @@
-;; Horizontal scroll bar
-(horizontal-scroll-bar-mode t)
-
 ;; MEOW mode - mode for better hotkeys
-;; ------------------------------------
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (meow-motion-overwrite-define-key
@@ -105,14 +101,13 @@
   (meow-setup)
   (meow-global-mode 1))
 
-;; SET CMD-CTRL-S AS FULLSCREEN SHORTCUT FOR MACOS
-(global-set-key (kbd "C-s-f") 'toggle-frame-fullscreen)
-
 ;; Keybinding discovery minor mode
-;; -------------------------
 (use-package which-key
   :config
   (which-key-mode t))
 
 ;;; VISITING FILES AT POINT
 (global-set-key (kbd "C-x C-.") #'find-file-at-point)
+
+;; SET CMD-CTRL-S AS FULLSCREEN SHORTCUT FOR MACOS
+(global-set-key (kbd "C-s-f") 'toggle-frame-fullscreen)
