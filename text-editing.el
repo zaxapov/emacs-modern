@@ -19,7 +19,7 @@
 (use-package pos-tip)
 (use-package company-quickhelp ;; show documentation in completion window
   :config
-  (setq company-quickhelp-delay 3) ;; documentation delay in seconds
+  (setq company-quickhelp-delay 2) ;; documentation delay in seconds
   (company-quickhelp-mode t))
 (use-package company-statistics
   :config
