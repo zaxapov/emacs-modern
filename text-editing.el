@@ -1,5 +1,4 @@
-;; COMPLETION
-;; -----------------
+;;; COMPLETION
 (use-package company
   :config
   (setq company-selection-wrap-around t) ;; wrap around to the beginnning
@@ -7,7 +6,7 @@
   (setq company-minimum-prefix-length 2) ;; start competion only after 2 symbols
   (setq company-idle-delay 0.1) ;; completion delay time
   (global-company-mode 1))
-;; COMPANY MODULES
+;;; COMPANY MODULES
 (use-package company-emoji
   :config
   (require 'company-emoji)
@@ -26,58 +25,30 @@
   (require 'company-statistics)
   (add-hook 'after-init-hook 'company-statistics-mode))
 
-;; REMEMBER THE PLACE WHERE THE CURSOR WAS LAST TIME
+;;; REMEMBER THE PLACE WHERE THE CURSOR WAS LAST TIME
 (save-place-mode 1)
 
-;;; LINE NUMBERS FOR PROG-MODE ONLY
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (display-line-numbers-mode 1)))
-
-;;; TURN ON/OFF LINE WRAPPING
-;;; OFF
-;; (set-default 'truncate-lines 1)
-;;; ON
-(global-visual-line-mode t)
-
-;;; FOLDING
-;; CODE FOLDING ON OR OFF? SHOW AVAILABLE COMMANDS: "M-x hs-"
+;;; CODE FOLDING ON/OFF
+;;; SHOW AVAILABLE COMMANDS WITH 'M-x hs-'
 (add-hook 'prog-mode-hook
           (lambda ()
             (hs-minor-mode 1)))
 
 ;;; INDENTATION
-(setq-default indent-tabs-mode nil      ; don't use tabs but spaces
-              tab-width 4)          ; set display width for tab characters
-;;; DELETE BY TAB-WIDTH, NOT BY SINGLE SPACES
+(setq-default indent-tabs-mode nil  ;; use spaces, not tabs
+              tab-width 4)          ;; indentation width
+;;; DELETE BY INDENT WIDTH, NOT BY SINGLE SPACES
 ;; (setq backward-delete-char-untabify-method 'hungry)
 
-;; ;; HOW TO DISPLAY MATCHING PARENS GENERALLY?
-(setq show-paren-style 'expression
-      show-paren-delay 0.0)
-;; AUTO-CLOSE PARENS, BRACKETS AND QUOTES?
+;;; AUTO-CLOSE PARENS, BRACKETS AND QUOTES?
 (electric-pair-mode 1)
 
-;;; INDICATE TRAILING WHITESPACE IN PROGRAMMING MODES?
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (setq show-trailing-whitespace 1)))
-
-;; CLEANUP TRAILING WHITESPACE IN PROGRAMMING MODES
-(define-key prog-mode-map (kbd "C-x c w") #'whitespace-cleanup)
-
-;; INDICATE TRAILING WHITESPACE IN "TEXT" MODES?
-(add-hook 'text-mode-hook
-          (lambda ()
-            (setq show-trailing-whitespace 1)))
-;; CLEANUP TRAILING WHITESPACE IN "TEXT" MODES
-(define-key text-mode-map (kbd "C-x c w") #'whitespace-cleanup)
-
-;; SENTENCES END WITH A SINGLE SPACE
+;;; SENTENCES END WITH A SINGLE SPACE
 (setq sentence-end-double-space nil)
 
-;;; ENABLE UPCASE-REGION COMMAND
+;;; ENABLE UPCASE/DOWNCASE-REGION COMMANDS
 (put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
 
 ;;; PLACE OVER SELECTED REGION
 (delete-selection-mode t)

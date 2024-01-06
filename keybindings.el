@@ -1,4 +1,4 @@
-;; MEOW mode - mode for better hotkeys
+;;; MEOW mode - mode for better hotkeys
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (meow-motion-overwrite-define-key
@@ -6,10 +6,10 @@
    '("k" . meow-prev)
    '("<escape>" . ignore))
   (meow-leader-define-key
-   ;; SPC j/k will run the original command in MOTION state.
+   ;;; SPC j/k will run the original command in MOTION state.
    '("j" . "H-j")
    '("k" . "H-k")
-   ;; Use SPC (0-9) for digit arguments.
+   ;;; Use SPC (0-9) for digit arguments.
    '("1" . meow-digit-argument)
    '("2" . meow-digit-argument)
    '("3" . meow-digit-argument)
@@ -101,7 +101,7 @@
   (meow-setup)
   (meow-global-mode 1))
 
-;; Keybinding discovery minor mode
+;;; KEYBINDING DISCOVERY MINOR MODE
 (use-package which-key
   :config
   (which-key-mode t))
@@ -109,5 +109,11 @@
 ;;; VISITING FILES AT POINT
 (global-set-key (kbd "C-x C-.") #'find-file-at-point)
 
-;; SET CMD-CTRL-S AS FULLSCREEN SHORTCUT FOR MACOS
-(global-set-key (kbd "C-s-f") 'toggle-frame-fullscreen)
+;;; SET CMD-CTRL-F AS FULLSCREEN SHORTCUT FOR MACOS
+(cond
+ ((eq system-type 'darwin)
+  (global-set-key (kbd "C-s-f") 'toggle-frame-fullscreen)))
+
+;;; CLEANUP TRAILING WHITESPACE IN PROGRAMMING/TEXT MODES
+(define-key prog-mode-map (kbd "C-x c w") #'whitespace-cleanup)
+(define-key text-mode-map (kbd "C-x c w") #'whitespace-cleanup)

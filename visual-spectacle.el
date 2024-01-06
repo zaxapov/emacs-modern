@@ -48,3 +48,29 @@
 (tool-bar-mode -1)
 ;; Tooltips: on/off
 (tooltip-mode -1)
+
+;;; How to display matching parens
+(setq show-paren-style 'expression
+      show-paren-delay 0.0)
+
+;;; LINE NUMBERS FOR PROG/TEXT-MODE ONLY
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (display-line-numbers-mode 1)))
+(add-hook 'text-mode-hook
+          (lambda ()
+            (display-line-numbers-mode 1)))
+
+;;; TURN ON/OFF LINE WRAPPING
+;;; OFF
+;; (set-default 'truncate-lines 1)
+;;; ON
+(global-visual-line-mode t)
+
+;;; INDICATE TRAILING WHITESPACE IN PROGRAMMING/TEXT MODES
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (setq show-trailing-whitespace 1)))
+(add-hook 'text-mode-hook
+          (lambda ()
+            (setq show-trailing-whitespace 1)))

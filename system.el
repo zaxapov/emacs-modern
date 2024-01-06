@@ -1,21 +1,31 @@
-;;; SYSTEM
-;; UTF-8
+;;; UTF-8
 (prefer-coding-system 'utf-8)
 
-;; y-o-n instead of yes-or-no
+;;; Y-O-N INSTEAD OF YES-OR-NO
 (setq use-short-answers t)
 
-;; Bell: on/off
+;;; BELL: ON/OFF
 (setq ring-bell-function 'ignore)
 
 ;;; SMOOTH SCROLLING
-(when (>= emacs-major-version 29)
-  (pixel-scroll-precision-mode 1) ;; Pixel-based scrolling
-  ;; Enable next option only on Linux, Windows and some Emacs ports for macOS
-  ;; (pixel-scroll-precision-use-momentum 1) ;; Emacs to continue to “drift” the display after it stops
-  (setq pixel-scroll-precision-large-scroll-height 40.0)) ;; emulate smooth scrolling with ordinary mouse
+(pixel-scroll-precision-mode 1)
+
+;;; If you want Emacs to continue to “drift” the display after
+;;; it stops, and you aren’t using the NS port on macOS,
+;;; enable the following:
+;; (pixel-scroll-precision-use-momentum 1)
+
+;;; Apply the following setting if you also want scrolling with
+;;; an ordinary mouse to be almost as smooth, as scrolling with
+;;; a touchpad on systems other than X
+;;; If that number does not work, decrease it by 5 at a time
+;;; until it starts to. Keep in mind that setting it too low will
+;;; cause normal trackpad scrolling to be interpolated, which is
+;;; probably not what you want.
+(setq pixel-scroll-precision-large-scroll-height 40.0)
 
 ;;; HORIZONTALL SCROLLING WITH MOUSE (REVERSED FOR MAC OS)
+;;; to disable the reverse - swap 'scroll-left' and 'scroll-right'
 ;; (global-set-key [wheel-right] '(lambda ()
 ;;                                      (interactive)
 ;;                                      (scroll-left 2)))
@@ -23,33 +33,29 @@
 ;;                                      (interactive)
 ;;                                      (scroll-right 2)))
 
-;; Right click context menu
+;;; RIGHT CLICK CONTEXT MENU
 (context-menu-mode 1)
 
-;; Uniquify buffer names for buffers that would have identical names
+;;; UNIQUIFY BUFFER NAMES FOR BUFFERS THAT WOULD HAVE IDENTICAL NAMES
 (setq uniquify-buffer-name-style 'forward)
 
-;;; IBUFFER – the buffer manager
+;;; IBUFFER – THE BUFFER MANAGER
 (require 'ibuf-ext)
 (add-hook 'ibuffer-mode-hook
           (lambda ()
             (ibuffer-auto-mode 1)))
 (setq ibuffer-marked-face 'dired-marked)
-;; Don't show the boring buffers in Ibuffer
 
 ;; Should the *scratch* buffer contain some initial content?
 (setq initial-scratch-message "")
 
-;;; BACKUP
-;; Make backup before editing
+;;; MAKE BACKUP BEFORE EDITING
 (setq backup-by-copying t
       kept-new-versions 10
       kept-old-versions 3
       delete-old-versions t
       version-control t)
-
-;; Where to save the backups?
-;; Specify file name/path patterns and directories ("REGEXP" . "DIRECTORY")
+;;; BACKUP DIRECTORY
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "backup/"))))
 
@@ -63,13 +69,12 @@
 
 ;;; RECENT FILES
 (require 'recentf)
-;; Turn on recent file mode to visit recently edited files
+;;; TURN ON RECENT FILE MODE TO VISIT RECENTLY EDITED FILES
 (recentf-mode 1)
 (setq recentf-max-menu-items 30
       recentf-max-saved-items 30)
 
-;;; PROCED
-;; Manage OS processes
+;;; TOOL FOR MANAGING OS PROCESS (HTOP IN EMACS)
 (require 'proced)
 (setq proced-auto-update-interval 1)
 (setq-default proced-auto-update-flag t
@@ -82,7 +87,7 @@
 
 ;;; USE DEFAULT WEB BROWSER
 (setq browse-url-browser-function #'browse-url-default-browser)
-;; Keybinding
+;;; KEYBINDING
 (global-set-key (kbd "C-x w w") #'browse-url)
 
 ;;; CALENDAR

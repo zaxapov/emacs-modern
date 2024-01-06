@@ -10,5 +10,6 @@ Emacs configuration files targeted __primarly__ at GUI Emacs versions >=29.
 - Quality of life improvements (similar to text editing in Notepad++, VS Code, etc.)
 - ...
 
-(list is not full, read the configuration, please)
+(list is not full, read the configuration files, please)
 
+This configuration was only tested on Mac OS Monterey with Emacs-Plus 29 (with native comp).
