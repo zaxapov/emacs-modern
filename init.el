@@ -19,12 +19,14 @@
   :custom
   (straight-use-package-by-default t))
 
-(load "~/emacs-modern/keybindings.el")
-(load "~/emacs-modern/visual-spectacle.el")
+
 (load "~/emacs-modern/system.el")
+(load "~/emacs-modern/keybindings.el")
 (load "~/emacs-modern/modeline_minibuffer.el")
 (load "~/emacs-modern/text-editing.el")
 (load "~/emacs-modern/languages.el")
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
+(load "~/emacs-modern/visual-spectacle.el")
+
+(defconst custom-file (expand-file-name "custom.el" user-emacs-directory))
+;; NOERROR to ignore nonexistent file - Emacs will create it
+(load custom-file t)

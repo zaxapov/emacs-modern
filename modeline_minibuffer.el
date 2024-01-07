@@ -40,8 +40,16 @@
   (marginalia-mode))
 
 ;;; MODELINE
-(setq mode-line-compact 1)
+;; (setq mode-line-compact 1)
 ;;; SHOW THE BUFFER SIZE IN THE MODELINE
-(size-indication-mode 1)
+(size-indication-mode -1)
 ;;; SHOW COLUMN NUMBER ALONG WITH LINE NUMBER IN MODELINE
 (column-number-mode 1)
+
+(use-package nerd-icons)
+(use-package doom-modeline
+  :ensure t
+  :config
+  (setq nerd-icons-color-icons nil)
+  (setq doom-modeline-buffer-file-name-style 'truncate-all)
+  :init (doom-modeline-mode 1))

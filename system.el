@@ -95,3 +95,7 @@
 (setq calendar-date-style 'iso
       calendar-week-start-day 1
       calendar-weekend-days '(6 0))
+
+(use-package exec-path-from-shell)
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))

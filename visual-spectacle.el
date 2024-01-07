@@ -1,6 +1,7 @@
 ;;; DEFAULT FRAME SIZE
 (add-to-list 'default-frame-alist '(width . 90))
-(add-to-list 'default-frame-alist '(height . 38))
+(add-to-list 'default-frame-alist '(height . 50))
+(set-frame-position (selected-frame) 30 50)
 
 ;; Startup screen: on/off
 (setq inhibit-startup-screen t)
@@ -24,7 +25,12 @@
 (use-package tron-legacy-theme
   :config
   (setq tron-legacy-theme-vivid-cursor t))
-(load-theme 'tron-legacy t)
+
+;;; AUTO-SET THEMES BASED ON SYSTEM STYLE
+(setq auto-dark-dark-theme 'tron-legacy)
+(setq auto-dark-light-theme 'ef-frost)
+(use-package auto-dark
+  :config (auto-dark-mode t))
 
 ;; Cursor type
 (add-to-list 'default-frame-alist '(cursor-type . bar))
